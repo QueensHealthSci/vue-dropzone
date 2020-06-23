@@ -7,6 +7,7 @@
 </template>
 
 <script>
+/* tslint:disable */
 import Dropzone from "dropzone"; //eslint-disable-line
 import awsEndpoint from "../services/urlsigner";
 
