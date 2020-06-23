@@ -1,7 +1,18 @@
 <template>
   <div :id="id" ref="dropzoneElement" :class="{ 'vue-dropzone dropzone': includeStyling }">
-    <div v-if="useCustomSlot" class="dz-message">
+    <!-- <div v-if="useCustomSlot" class="dz-message">
       <slot>Drop files here to upload</slot>
+      <button type="button">Browse Files</button>
+    </div>-->
+
+    <div class="dz-message">
+      <div>
+        <!-- <i class="fa fa-cloud-upload"></i> -->
+        <FontAwesomeIcon icon="cloud-upload" />
+        <p>Drop files here to upload</p>
+      </div>
+      <EjsButton :small="true">Browse Files</EjsButton>
+      <!-- <button type="button">Browse Files</button> -->
     </div>
   </div>
 </template>
@@ -10,10 +21,16 @@
 /* tslint:disable */
 import Dropzone from "dropzone"; //eslint-disable-line
 import awsEndpoint from "../services/urlsigner";
+import { default as EjsButton } from "@/components/Button/Button.vue";
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 Dropzone.autoDiscover = false;
 
 export default {
+  components: {
+    EjsButton,
+    FontAwesomeIcon
+  },
   props: {
     id: {
       type: String,
@@ -431,17 +448,27 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+@import "@/styles/_variables.scss";
+@import "@/styles/_mixins.scss";
+
 .vue-dropzone {
-  border: 2px solid #e5e5e5;
+  align-items: center;
+  border: 3px dashed ejsc($ejs-color-layout--border);
+  border-radius: $ejs-border-radius--lg;
+  display: flex;
   font-family: "Arial", sans-serif;
+  justify-content: center;
   letter-spacing: 0.2px;
-  color: #777;
   transition: 0.2s linear;
 }
 
 .vue-dropzone:hover {
   background-color: #f6f6f6;
+}
+
+.vue-dropzone .dz-message {
+  margin: 0;
 }
 
 .vue-dropzone > i {
