@@ -8,6 +8,7 @@
 
 <script>
 /* tslint:disable */
+// testing committing from sourcetree
 import Dropzone from "dropzone"; //eslint-disable-line
 import awsEndpoint from "../services/urlsigner";
 
