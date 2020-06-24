@@ -3,6 +3,7 @@
     <div class="dz-message">
       <i class="fa fa-cloud-upload"></i>
       <p class="ejs-m-b---d">Drop files here to upload</p>
+
       <EjsButton :small="true">Browse Files</EjsButton>
     </div>
   </div>
