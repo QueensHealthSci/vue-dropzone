@@ -1,18 +1,9 @@
 <template>
   <div :id="id" ref="dropzoneElement" :class="{ 'vue-dropzone dropzone': includeStyling }">
-    <!-- <div v-if="useCustomSlot" class="dz-message">
-      <slot>Drop files here to upload</slot>
-      <button type="button">Browse Files</button>
-    </div>-->
-
     <div class="dz-message">
-      <div>
-        <!-- <i class="fa fa-cloud-upload"></i> -->
-        <FontAwesomeIcon icon="cloud-upload" />
-        <p>Drop files here to upload</p>
-      </div>
+      <i class="fa fa-cloud-upload"></i>
+      <p class="ejs-m-b---d">Drop files here to upload</p>
       <EjsButton :small="true">Browse Files</EjsButton>
-      <!-- <button type="button">Browse Files</button> -->
     </div>
   </div>
 </template>
@@ -22,14 +13,12 @@
 import Dropzone from "dropzone"; //eslint-disable-line
 import awsEndpoint from "../services/urlsigner";
 import { default as EjsButton } from "@/components/Button/Button.vue";
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 Dropzone.autoDiscover = false;
 
 export default {
   components: {
-    EjsButton,
-    FontAwesomeIcon
+    EjsButton
   },
   props: {
     id: {
@@ -454,119 +443,199 @@ export default {
 
 .vue-dropzone {
   align-items: center;
-  border: 3px dashed ejsc($ejs-color-layout--border);
+  background-color: ejsc($ejs-color-grey--light);
+  border: 5px dashed ejsc($ejs-color-layout--border);
   border-radius: $ejs-border-radius--lg;
   display: flex;
   font-family: "Arial", sans-serif;
   justify-content: center;
   letter-spacing: 0.2px;
   transition: 0.2s linear;
-}
+  min-height: 276px;
 
-.vue-dropzone:hover {
-  background-color: #f6f6f6;
-}
+  &:hover {
+    background-color: ejsc($ejs-color-grey--medium);
+  }
 
-.vue-dropzone .dz-message {
-  margin: 0;
-}
+  .dz-message {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
 
-.vue-dropzone > i {
-  color: #ccc;
-}
+    > i {
+      color: ejsc($ejs-color-icon---d);
+      font-size: $ejs-type-size--xl;
+      margin-bottom: $ejs-spacing--xs;
+    }
 
-.vue-dropzone > .dz-preview .dz-image {
-  border-radius: 0;
-  width: 100%;
-  height: 100%;
-}
+    > .button {
+      align-self: center;
+    }
+  }
 
-.vue-dropzone > .dz-preview .dz-image img:not([src]) {
-  width: 200px;
-  height: 200px;
-}
+  > .dz-preview {
+    margin: $ejs-spacing---d !important;
 
-.vue-dropzone > .dz-preview .dz-image:hover img {
-  transform: none;
-  -webkit-filter: none;
-}
+    &:hover {
+      .dz-progress,
+      .dz-success-mark,
+      .dz-error-mark {
+        opacity: 0;
+      }
+      
+      .dz-remove {
+        opacity: 1;
+      }
+    }
 
-.vue-dropzone > .dz-preview .dz-details {
-  bottom: 0;
-  top: 0;
-  color: white;
-  background-color: rgba(33, 150, 243, 0.8);
-  transition: opacity 0.2s linear;
-  text-align: left;
-}
+    .dz-image {
+      border-radius: $ejs-border-radius--lg;
+      // overflow: hidden;
+      width: 100%;
+      height: 100%;
 
-.vue-dropzone > .dz-preview .dz-details .dz-filename {
-  overflow: hidden;
-}
+      img:not([src]) {
+        width: 200px;
+        height: 200px;
+      }
 
-.vue-dropzone > .dz-preview .dz-details .dz-filename span,
-.vue-dropzone > .dz-preview .dz-details .dz-size span {
-  background-color: transparent;
-}
+      &:hover img {
+        transform: none;
+        -webkit-filter: none;
+      }
+    }
 
-.vue-dropzone > .dz-preview .dz-details .dz-filename:not(:hover) span {
-  border: none;
-}
+    .dz-details {
+      bottom: 0;
+      top: 0;
+      background-color: ejsc($ejs-color-icon---d);
+      border-radius: $ejs-border-radius--lg;
+      transition: opacity 0.2s linear;
+      text-align: left;
 
-.vue-dropzone > .dz-preview .dz-details .dz-filename:hover span {
-  background-color: transparent;
-  border: none;
-}
+      .dz-filename {
+        overflow: hidden;
 
-.vue-dropzone > .dz-preview .dz-progress .dz-upload {
-  background: #cccccc;
-}
+        span {
+          background-color: transparent;
+          color: ejsc($ejs-color--white);
+          padding: 0.3em 0.4em;
+        }
 
-.vue-dropzone > .dz-preview .dz-remove {
-  position: absolute;
-  z-index: 30;
-  color: white;
-  margin-left: 15px;
-  padding: 10px;
-  top: inherit;
-  bottom: 15px;
-  border: 2px white solid;
-  text-decoration: none;
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  font-weight: 800;
-  letter-spacing: 1.1px;
-  opacity: 0;
-}
+        &:not(:hover) span {
+          border: none;
+        }
 
-.vue-dropzone > .dz-preview:hover .dz-remove {
-  opacity: 1;
-}
+        &:hover {
+          overflow: visible;
+          
+          span {
+            background-color: ejsc($ejs-color--black, 0.85);
+            border: none;
+          }
+        }
+      }
 
-.vue-dropzone > .dz-preview .dz-success-mark,
-.vue-dropzone > .dz-preview .dz-error-mark {
-  margin-left: auto;
-  margin-top: auto;
-  width: 100%;
-  top: 35%;
-  left: 0;
-}
+      .dz-size {
+        span {
+          background-color: transparent;
+          color: ejsc($ejs-color--white);
+        }
 
-.vue-dropzone > .dz-preview .dz-success-mark svg,
-.vue-dropzone > .dz-preview .dz-error-mark svg {
-  margin-left: auto;
-  margin-right: auto;
-}
+        strong {
+          color: ejsc($ejs-color--white);
+        }
+      }
+    }
 
-.vue-dropzone > .dz-preview .dz-error-message {
-  margin-left: auto;
-  margin-right: auto;
-  left: 0;
-  width: 100%;
-  text-align: center;
-}
+    .dz-progress .dz-upload {
+      background: #cccccc;
+    }
 
-.vue-dropzone > .dz-preview .dz-error-message:after {
-  display: none;
+    .dz-remove {
+      position: absolute;
+      z-index: 30;
+      margin-left: 0;
+      padding: 0;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      top: 10px;
+      bottom: inherit;
+      right: 0;
+      margin-right: 10px;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 1.1px;
+      opacity: 0;
+      transition: 0.2s;
+
+      > i {
+        color: ejsc($ejs-color--white);
+        cursor: pointer;
+        font-size: 22px;
+
+        &::before {
+          content: "\f00d";
+        }
+      }
+
+      &:hover {
+        background-color: ejsc($ejs-color--black, 0.2);
+        text-decoration: none;
+      }
+      
+      &:focus {
+        background-color: ejsc($ejs-color-state--focus);
+        opacity: 1;
+        text-decoration: none;
+      }
+    }
+
+    .dz-success-mark,
+    .dz-error-mark {
+      margin-left: auto;
+      margin-top: auto;
+      width: 100%;
+      top: 35%;
+      left: 0;
+      transition: 0.2s linear;
+
+      svg {
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+
+    .dz-error-mark {
+      margin-left: auto;
+      margin-right: auto;
+      left: 0;
+      width: 100%;
+      text-align: center;
+
+      &::after {
+        display: none;
+      }
+    }
+
+    .dz-error-message {
+      border-radius: $ejs-border-radius---d;
+      bottom: 15px;
+      top: initial;
+      left: 15px;
+      width: auto;
+      background: ejsc($ejs-color--black, 0.2);
+
+      span {
+        color: ejsc($ejs-color--white);
+      }
+    }
+  }
 }
 </style>
