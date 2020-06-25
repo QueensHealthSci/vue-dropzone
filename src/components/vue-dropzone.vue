@@ -1,6 +1,11 @@
 <template>
   <div :id="id" ref="dropzoneElement" :class="{ 'vue-dropzone dropzone': includeStyling }">
-    <div v-if="$slots.default" class="dz-message">
+    <div v-if="customPreviewsContainer"
+         class="dropzone-previews"
+    />
+    <div v-if="$slots.default && displayUploadMessage"
+         class="dz-message"
+         :class="customUploadMessageClass">
       <slot>Drop files here to upload</slot>
     </div>
   </div>
@@ -40,6 +45,21 @@ export default {
       required: false
     },
     duplicateCheck: {
+      type: Boolean,
+      default: false,
+      required: false
+    },
+    displayUploadMessage: {
+      type: Boolean,
+      default: true,
+      required: false
+    },
+    customUploadMessageClass: {
+      type: String,
+      default: '',
+      required: false
+    },
+    customPreviewsContainer: {
       type: Boolean,
       default: false,
       required: false
