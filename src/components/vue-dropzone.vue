@@ -3,9 +3,11 @@
     <div v-if="customPreviewsContainer"
          class="dropzone-previews"
     />
-    <div v-if="$slots.default && displayUploadMessage"
-         class="dz-message"
-         :class="customUploadMessageClass">
+    <!-- displayUploadMessage is in a v-show since dropzone generates its own default message if
+    it does not detect the presence of a '.dz-message' element when the dropzone element is created -->
+    <div v-if="$slots.default"
+         v-show="displayUploadMessage"
+         class="dz-message">
       <slot>Drop files here to upload</slot>
     </div>
   </div>
@@ -54,15 +56,15 @@ export default {
       default: true,
       required: false
     },
-    customUploadMessageClass: {
-      type: String,
-      default: '',
-      required: false
-    },
     customPreviewsContainer: {
       type: Boolean,
       default: false,
       required: false
+    },
+    removeExcessUploadedFiles: {
+        type: Boolean,
+        default: false,
+        required: false
     }
   },
   data() {
@@ -136,6 +138,13 @@ export default {
             }
           }
         }
+      }
+
+      if (vm.removeExcessUploadedFiles &&
+          this.options.maxFiles != null && this.files.length > this.options.maxFiles) {
+          console.log('removing file at', this.files.length);
+          this.removeFile(this.files[this.files.length - 1]);
+          return;
       }
 
       vm.$emit("vdropzone-file-added", file);
