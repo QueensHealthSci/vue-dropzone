@@ -1,6 +1,13 @@
 <template>
   <div :id="id" ref="dropzoneElement" :class="{ 'vue-dropzone dropzone': includeStyling }">
-    <div v-if="useCustomSlot" class="dz-message">
+    <div v-if="customPreviewsContainer"
+         class="dropzone-previews"
+    />
+    <!-- displayUploadMessage is in a v-show since dropzone generates its own default message if
+    it does not detect the presence of a '.dz-message' element when the dropzone element is created -->
+    <div v-if="$slots.default"
+         v-show="displayUploadMessage"
+         class="dz-message">
       <slot>Drop files here to upload</slot>
     </div>
   </div>
@@ -44,10 +51,20 @@ export default {
       default: false,
       required: false
     },
-    useCustomSlot: {
+    displayUploadMessage: {
+      type: Boolean,
+      default: true,
+      required: false
+    },
+    customPreviewsContainer: {
       type: Boolean,
       default: false,
       required: false
+    },
+    removeExcessUploadedFiles: {
+        type: Boolean,
+        default: false,
+        required: false
     }
   },
   data() {
@@ -121,6 +138,12 @@ export default {
             }
           }
         }
+      }
+
+      if (vm.removeExcessUploadedFiles &&
+          this.options.maxFiles != null && this.files.length > this.options.maxFiles) {
+          this.removeFile(this.files[this.files.length - 1]);
+          return;
       }
 
       vm.$emit("vdropzone-file-added", file);
