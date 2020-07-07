@@ -142,7 +142,6 @@ export default {
 
       if (vm.removeExcessUploadedFiles &&
           this.options.maxFiles != null && this.files.length > this.options.maxFiles) {
-          console.log('removing file at', this.files.length);
           this.removeFile(this.files[this.files.length - 1]);
           return;
       }
