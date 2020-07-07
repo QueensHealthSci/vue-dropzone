@@ -1,6 +1,7 @@
 <template>
   <div :id="id" ref="dropzoneElement" :class="{ 'vue-dropzone dropzone': includeStyling }">
-    <div class="dropzone-previews"
+    <div v-if="customPreviewsContainer"
+         class="dropzone-previews"
     />
     <!-- displayUploadMessage is in a v-show since dropzone generates its own default message if
     it does not detect the presence of a '.dz-message' element when the dropzone element is created -->
